@@ -1,5 +1,6 @@
 ﻿"use client"
 
+import type React from "react"
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Link from "next/link"
@@ -118,9 +119,13 @@ export default function EditProductPage() {
       setExistingVariants(
         (product.product_variants || []).map(v => {
           const attrs: Record<number, number> = {}
-          v.variant_attributes?.forEach(va => {
+          v.variant_attributes?.forEach((va: any) => {
+  const attributeValue = Array.isArray(va.attribute_values)
+    ? va.attribute_values[0]
+    : va.attribute_values
+
   const attrObj = (attrVals || []).find(
-    av => av.id === va.attribute_values?.id
+    av => av.id === attributeValue?.id
   )
 
   if (attrObj) {
@@ -142,7 +147,7 @@ export default function EditProductPage() {
     init()
   }, [params.id])
 
-  const handleFormChange = (e) => {
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const val = e.target.type === "checkbox" ? e.target.checked : e.target.value
     setForm(prev => ({ ...prev, [e.target.name]: val }))
   }
@@ -233,7 +238,7 @@ export default function EditProductPage() {
     setNewImages(prev => prev.map((img, i) => ({ ...img, isPrimary: i === idx })))
   }
 
-  const handleSave = async (e) => {
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
     setSuccess("")
