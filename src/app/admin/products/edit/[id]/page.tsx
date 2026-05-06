@@ -119,10 +119,14 @@ export default function EditProductPage() {
         (product.product_variants || []).map(v => {
           const attrs: Record<number, number> = {}
           v.variant_attributes?.forEach(va => {
-            const attrName = va.attribute_values?.attributes?.name
-            const attrObj = (attrVals || []).find(av => av.id === va.attribute_values?.id)
-            if (attrObj) attrs[attrObj.attribute_id] = attrObj.id
-          })
+  const attrObj = (attrVals || []).find(
+    av => av.id === va.attribute_values?.id
+  )
+
+  if (attrObj) {
+    attrs[attrObj.attribute_id] = attrObj.id
+  }
+})
           return {
             id: v.id,
             price: String(v.price),
