@@ -7,11 +7,10 @@ import { Eye, EyeOff } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 
 const rules = [
-  { id: "len", label: "En az 8 karakter", test: (pw) => pw.length >= 8 },
-  { id: "upper", label: "Buyuk harf icermeli", test: (pw) => /[A-Z]/.test(pw) },
-  { id: "lower", label: "Kucuk harf icermeli", test: (pw) => /[a-z]/.test(pw) },
-  { id: "num", label: "Sayi icermeli", test: (pw) => /[0-9]/.test(pw) },
-  { id: "special", label: "Ozel karakter icermeli (!@#$...)", test: (pw) => /[^A-Za-z0-9]/.test(pw) },
+  { id: "len", label: "En az 8 karakter", test: (pw: string) => pw.length >= 8 },
+  { id: "upper", label: "Buyuk harf icermeli", test: (pw: string) => /[A-Z]/.test(pw) },
+  { id: "lower", label: "Kucuk harf icermeli", test: (pw: string) => /[a-z]/.test(pw) },
+  { id: "num", label: "Sayi icermeli", test: (pw: string) => /[0-9]/.test(pw) },
 ]
 
 const strengthColors = [
@@ -48,11 +47,11 @@ export default function RegisterPage() {
     ? form.password === form.confirmPassword
     : null
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
     setSuccess("")
