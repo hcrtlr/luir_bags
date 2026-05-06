@@ -147,10 +147,21 @@ export default function EditProductPage() {
     init()
   }, [params.id])
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const val = e.target.type === "checkbox" ? e.target.checked : e.target.value
-    setForm(prev => ({ ...prev, [e.target.name]: val }))
-  }
+  const handleFormChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+) => {
+  const target = e.target
+
+  const val =
+    target instanceof HTMLInputElement && target.type === "checkbox"
+      ? target.checked
+      : target.value
+
+  setForm(prev => ({
+    ...prev,
+    [target.name]: val,
+  }))
+}
 
   // Mevcut varyant güncelle
   const updateExistingVariant = (id: number, field: string, value: string) => {
