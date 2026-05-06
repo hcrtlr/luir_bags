@@ -1,5 +1,6 @@
 ﻿"use client"
 
+import type React from "react"
 import { RotateCcw, } from 'lucide-react';
 import { useEffect, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"

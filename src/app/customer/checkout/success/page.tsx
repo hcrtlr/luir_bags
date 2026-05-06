@@ -1,5 +1,6 @@
 ﻿"use client"
 
+import type React from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Check, ShoppingBag, Package } from "lucide-react"

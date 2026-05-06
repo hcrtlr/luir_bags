@@ -1,5 +1,5 @@
 "use client"
-
+import type React from "react"
 import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"

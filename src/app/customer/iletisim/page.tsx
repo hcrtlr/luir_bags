@@ -1,4 +1,6 @@
 ﻿"use client"
+
+import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, Mail, Phone, MapPin, Clock } from "lucide-react"

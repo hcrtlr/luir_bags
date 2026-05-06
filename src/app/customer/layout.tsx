@@ -3,6 +3,7 @@ import { DM_Sans, Cormorant_Garamond } from "next/font/google"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
 import "../globals.css"
+import type React from "react"
 
 const dmSans = DM_Sans({
   subsets: ["latin"],

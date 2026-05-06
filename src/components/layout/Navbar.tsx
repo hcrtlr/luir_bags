@@ -1,5 +1,5 @@
 "use client"
-
+import type React from "react"
 import Link from "next/link"
 import { useEffect, useRef, useState, useCallback } from "react"
 import { Search, User, ShoppingBag, Menu, X, Heart } from "lucide-react"
