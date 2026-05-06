@@ -1,5 +1,6 @@
 ﻿"use client"
 
+import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
@@ -12,7 +13,7 @@ export default function ForgotPasswordPage() {
   const [error, setError] = useState("")
   const [sent, setSent] = useState(false)
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
 
@@ -92,12 +93,14 @@ export default function ForgotPasswordPage() {
             <div>
               <label style={labelStyle}>E-posta</label>
               <input
-                style={inputStyle}
-                type="email"
-                placeholder="ornek@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+                 style={inputStyle}
+                 type="email"
+                 placeholder="ornek@email.com"
+                 value={email}
+                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+             setEmail(e.target.value)
+              }
+             />
             </div>
 
             {error && (

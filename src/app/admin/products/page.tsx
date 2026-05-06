@@ -37,7 +37,7 @@ export default function AdminProductsPage() {
         product_images ( image_url, is_primary )
       `)
       .order("created_at", { ascending: false })
-    setProducts(data || [])
+    setProducts((data as any[]) || [])
     setLoading(false)
   }
 
@@ -286,7 +286,7 @@ export default function AdminProductsPage() {
       {/* S�L ONAY POP-UP */}
       {deleteId && (
         <div
-          onClick={(e) => { if (e.target === e.currentTarget) setDeleteId(null) }}
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => { if (e.target === e.currentTarget) setDeleteId(null) }}
           style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 999 }}
         >
           <div style={{ background: "#fff", width: "100%", maxWidth: "480px", padding: "28px 24px", borderRadius: "16px 16px 0 0" }}>

@@ -17,6 +17,7 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.luirbags.com"),
   title: "Luir Bags",
   description: "Premium canta ve valizler.",
 }

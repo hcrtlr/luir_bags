@@ -92,7 +92,7 @@ export default function ProductDetailPage() {
         .single()
 
       if (error || !data) { router.push("/customer/products"); return }
-      setProduct(data)
+      setProduct(data as any)
 
       // URL'den variant oku
       const urlVariantId = searchParams.get("variant")
@@ -104,13 +104,26 @@ export default function ProductDetailPage() {
       }
 
       if (initialVariant) {
-        setSelectedVariantId(initialVariant.id)
-        const attrs: Record<string, number> = {}
-        initialVariant.variant_attributes.forEach(va => {
-          attrs[va.attribute_values.attributes.name] = va.attribute_values.id
-        })
-        setSelectedAttrs(attrs)
-      }
+  setSelectedVariantId(initialVariant.id)
+
+  const attrs: Record<string, number> = {}
+
+  initialVariant.variant_attributes.forEach((va: any) => {
+    const attributeValue = Array.isArray(va.attribute_values)
+      ? va.attribute_values[0]
+      : va.attribute_values
+
+    const attribute = Array.isArray(attributeValue?.attributes)
+      ? attributeValue.attributes[0]
+      : attributeValue?.attributes
+
+    if (attribute?.name && attributeValue?.id) {
+      attrs[attribute.name] = attributeValue.id
+    }
+  })
+
+  setSelectedAttrs(attrs)
+}
 
       setLoading(false)
     }

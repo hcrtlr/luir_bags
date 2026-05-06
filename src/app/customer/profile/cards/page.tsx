@@ -15,6 +15,7 @@ type Card = {
   expire_year: string
   is_default: boolean
   iyzico_card_token: string
+  iyzico_card_user_key: string
 }
 
 const emptyForm = {
@@ -60,7 +61,7 @@ export default function CardsPage() {
     init()
   }, [])
 
-  const handleChange = (e) => {
+  const handleChange = ( e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.type === "checkbox" ? e.target.checked : e.target.value
 
     if (e.target.name === "card_number") {
@@ -100,7 +101,7 @@ export default function CardsPage() {
     return "OTHER"
   }
 
-  const handleSave = async (e) => {
+  const handleSave = async ( e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
 
@@ -178,7 +179,9 @@ export default function CardsPage() {
           cardUserKey: card.iyzico_card_user_key,
         }),
       })
-    } catch {}
+    } catch (error) {
+    console.error(error)}
+  
 
     await supabase.from("cards").delete().eq("id", card.id)
     await fetchCards(userId!)
@@ -386,7 +389,7 @@ export default function CardsPage() {
 
       {/* SİL POP-UP */}
       {showDeleteId && (
-        <div onClick={(e) => { if (e.target === e.currentTarget) setShowDeleteId(null) }} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 999 }}>
+        <div onClick={(e: React.MouseEvent<HTMLDivElement>) => { if (e.target === e.currentTarget) setShowDeleteId(null) }} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 999 }}>
           <div style={{ background: "var(--background)", width: "100%", maxWidth: "520px", padding: "28px 24px", borderRadius: "16px 16px 0 0" }}>
             <div style={{ width: "44px", height: "44px", borderRadius: "50%", border: "1px solid var(--error)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
               <Trash2 size={18} color="var(--error)" />

@@ -94,15 +94,31 @@ export default function ProductsPage() {
 
       // Attribute gruplarï¿½ ï¿½ normalize edilmiï¿½ deï¿½erler
       const groups: Record<string, Set<string>> = {}
-      products.forEach(p => {
-        p.product_variants?.forEach(v => {
-          v.variant_attributes?.forEach(va => {
-            const name = va.attribute_values.attributes.name
-            if (!groups[name]) groups[name] = new Set()
-            groups[name].add(va.attribute_values.value)
-          })
-        })
-      })
+
+products.forEach((p: any) => {
+  p.product_variants?.forEach((v: any) => {
+    v.variant_attributes?.forEach((va: any) => {
+
+      const attributeValue = Array.isArray(va.attribute_values)
+        ? va.attribute_values[0]
+        : va.attribute_values
+
+      const attribute = Array.isArray(attributeValue?.attributes)
+        ? attributeValue.attributes[0]
+        : attributeValue?.attributes
+
+      const name = attribute?.name
+
+      if (!name) return
+
+      if (!groups[name]) {
+        groups[name] = new Set()
+      }
+
+      groups[name].add(attributeValue.value)
+    })
+  })
+})
 
       const attrGroupList = Object.entries(groups).map(([name, vals]) => ({
         name,
@@ -132,25 +148,51 @@ export default function ProductsPage() {
           ) || product.product_images?.find(img => img.variant_id === null)
 
           const imageUrl = variantImg?.image_url || generalImg?.image_url || null
-          const label = variant.variant_attributes?.map(va => va.attribute_values.value).join(" | ") || ""
 
-          const attrs: Record<string, string> = {}
-          variant.variant_attributes?.forEach(va => {
-            attrs[va.attribute_values.attributes.name] = va.attribute_values.value
-          })
+const label =
+  variant.variant_attributes
+    ?.map((va: any) => {
+      const attributeValue = Array.isArray(va.attribute_values)
+        ? va.attribute_values[0]
+        : va.attribute_values
 
-          flat.push({
-            productId: product.id,
-            productName: product.name,
-            categoryName: product.categories?.name || "",
-            categoryId: product.category_id,
-            variantId: variant.id,
-            price: variant.price,
-            stock: variant.stock,
-            imageUrl,
-            label,
-            attrs,
-          })
+      return attributeValue?.value
+    })
+    .filter(Boolean)
+    .join(" | ") || ""
+
+const attrs: Record<string, string> = {}
+
+variant.variant_attributes?.forEach((va: any) => {
+  const attributeValue = Array.isArray(va.attribute_values)
+    ? va.attribute_values[0]
+    : va.attribute_values
+
+  const attribute = Array.isArray(attributeValue?.attributes)
+    ? attributeValue.attributes[0]
+    : attributeValue?.attributes
+
+  if (attribute?.name && attributeValue?.value) {
+    attrs[attribute.name] = attributeValue.value
+  }
+})
+
+const category = Array.isArray(product.categories)
+  ? product.categories[0]
+  : product.categories
+
+flat.push({
+  productId: product.id,
+  productName: product.name,
+  categoryName: category?.name || "",
+  categoryId: product.category_id,
+  variantId: variant.id,
+  price: variant.price,
+  stock: variant.stock,
+  imageUrl,
+  label,
+  attrs,
+})
         })
       })
 
@@ -550,9 +592,29 @@ export default function ProductsPage() {
                             onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
                           />
                         ) : (
-                          <svg width="60" height="60" viewBox="0 0 100 100" fill="none" Popacity="0.15">
-                            <rect x="20" y="35" width="60" height="50" rx="6" fill="#B8A99A"/>
-                            <path d="M35 35 Q35 20 50 20 Q65 20 65 35" fill="none" stroke="#8B6F5E" strokeWidth="4" strokeLinecap="round"/>
+                          <svg
+                            width="60"
+                            height="60"
+                            viewBox="0 0 100 100"
+                            fill="none"
+                            opacity="0.15"
+                            >
+                              <rect
+                              x="20"
+                              y="35"
+                              width="60"
+                              height="50"
+                              rx="6"
+                              fill="#B8A99A"
+                              />
+                              
+                              <path
+                              d="M35 35 Q35 20 50 20 Q65 20 65 35"
+                              fill="none"
+                              stroke="#8B6F5E"
+                              strokeWidth="4"
+                              strokeLinecap="round"
+                               />
                           </svg>
                         )}
                         {fv.stock === 0 && (

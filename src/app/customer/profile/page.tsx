@@ -9,8 +9,8 @@ export default function ProfilePage() {
   const router = useRouter()
   const supabase = createClient()
 
-  const [user, setUser] = useState(null)
-  const [profile, setProfile] = useState(null)
+  const [user, setUser] = useState<any>(null)
+const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [showLogout, setShowLogout] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
@@ -208,7 +208,7 @@ export default function ProfilePage() {
       {/* ÇIKIŞ POP-UP */}
       {showLogout && (
         <div
-          onClick={(e) => { if (e.target === e.currentTarget) setShowLogout(false) }}
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => { if (e.target === e.currentTarget) setShowLogout(false) }}
           style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 999 }}
         >
           <div style={{ background: "var(--background)", width: "100%", maxWidth: "520px", padding: "32px 24px", borderRadius: "16px 16px 0 0" }}>
@@ -236,7 +236,7 @@ export default function ProfilePage() {
       {/* HESAP SİL POP-UP */}
       {showDelete && (
         <div
-          onClick={(e) => { if (e.target === e.currentTarget) setShowDelete(false) }}
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => { if (e.target === e.currentTarget) setShowDelete(false) }}
           style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 999 }}
         >
           <div style={{ background: "var(--background)", width: "100%", maxWidth: "520px", padding: "32px 24px", borderRadius: "16px 16px 0 0" }}>
